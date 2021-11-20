@@ -17,6 +17,7 @@ const HeroCard = (props) => {
 
   const cardStyle = {
     boxShadow: "5px 10px #ff452b",
+    height: "910px",
   };
 
   // Effect hook is used to make the request to the Marvel API

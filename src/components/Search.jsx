@@ -2,6 +2,10 @@
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { useState } from "react";
 
 // Styles for search button
@@ -9,6 +13,7 @@ const btnStyles = {
   marginLeft: "10px",
   fontFamily: "Nunito Sans",
   backgroundColor: "#ff452b",
+  marginTop: "2px",
   height: "55px",
 };
 
@@ -16,14 +21,16 @@ const Search = (props) => {
   // A state hook is used to store the input name given by the user
   const [heroName, setHeroName] = useState("");
 
+  const [option, setOption] = useState("More than 20 comics");
+
   let heroes = [...props.heroes];
   let { setHeroes } = props;
 
   // Default element to show when the search does not obtain any results
   const emptySearch = [
     {
-      name: "Error while connecting with API. Please try again later",
-      description: "Try again later",
+      name: "No heroes found",
+      description: "Please try again",
       thumbnail: {
         path: "https://blogs.unsw.edu.au/nowideas/files/2018/11/error-no-es-fracaso",
         extension: "jpg",
@@ -71,27 +78,83 @@ const Search = (props) => {
     }
   };
 
+  const handleFilterChange = (event) => {
+    let heroesTemp = heroes;
+    setOption(event.target.value);
+    if (option == "More than 20 comics") {
+      heroesTemp = heroes.filter(function f(element) {
+        return element.comics.available > 20;
+      });
+    }
+    if (option == "Less than 10 series") {
+      heroesTemp = heroes.filter(function f(element) {
+        return element.series.available < 10;
+      });
+    }
+    if (option == "More than 8 stories") {
+      heroesTemp = heroes.filter(function f(element) {
+        return element.stories.available > 8;
+      });
+    }
+    setHeroes(heroesTemp);
+  };
+
   return (
     <div>
-      <TextField
-        id="filled-search"
-        label="Search hero by name"
-        type="search"
-        style={{ fontFamily: "Nunito Sans" }}
-        variant="filled"
-        onChange={handleChange}
-      />
+      <div>
+        <TextField
+          id="filled-search"
+          label="Search hero by name"
+          type="search"
+          style={{ fontFamily: "Nunito Sans" }}
+          variant="filled"
+          onChange={handleChange}
+        />
 
-      <Button
-        variant="contained"
-        onClick={() => {
-          handleClick();
-        }}
-        style={btnStyles}
-        startIcon={<SearchIcon />}
-      >
-        Search
-      </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            handleClick();
+          }}
+          style={btnStyles}
+          startIcon={<SearchIcon />}
+        >
+          Search
+        </Button>
+      </div>
+      <br></br>
+      <div>
+        <FormControl>
+          <InputLabel
+            style={{ fontFamily: "Nunito Sans" }}
+            id="demo-simple-select-label"
+          >
+            Filter
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={option}
+            style={{
+              marginLeft: "10px",
+              width: "200px",
+              fontFamily: "Nunito Sans",
+            }}
+            label="Filter"
+            onChange={handleFilterChange}
+          >
+            <MenuItem value={"More than 20 comics"}>
+              More than 20 comics
+            </MenuItem>
+            <MenuItem value={"Less than 10 series"}>
+              Less than 10 series
+            </MenuItem>
+            <MenuItem value={"More than 8 stories"}>
+              More than 8 stories
+            </MenuItem>
+          </Select>
+        </FormControl>
+      </div>
     </div>
   );
 };
