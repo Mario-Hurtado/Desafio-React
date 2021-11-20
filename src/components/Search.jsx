@@ -1,8 +1,10 @@
+// Material UI imports
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
 import { useState } from "react";
 
+// Styles for search button
 const btnStyles = {
   marginLeft: "10px",
   fontFamily: "Nunito Sans",
@@ -11,11 +13,13 @@ const btnStyles = {
 };
 
 const Search = (props) => {
+  // A state hook is used to store the input name given by the user
   const [heroName, setHeroName] = useState("");
 
   let heroes = [...props.heroes];
   let { setHeroes } = props;
 
+  // Default element to show when the search does not obtain any results
   const emptySearch = [
     {
       name: "Error while connecting with API. Please try again later",
@@ -46,15 +50,18 @@ const Search = (props) => {
     },
   ];
 
+  // Function to store the input name for the search
   const handleChange = (event) => {
     const newHeroName = event.target.value;
     setHeroName(newHeroName);
   };
 
+  // Function to search the hero using the input name given by the user
   const filterByHeroName = (hero) => {
     return hero.name === heroName;
   };
 
+  // Function to handle behavior when the user clicks on the search button
   const handleClick = () => {
     if (heroName === "") {
       setHeroes(emptySearch);

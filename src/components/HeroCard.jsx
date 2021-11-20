@@ -1,11 +1,14 @@
 import * as React from "react";
+// Material UI imports
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import { Grid, Container } from "@mui/material";
+// Axios is imported for the HTTP request
 import axios from "axios";
+// MD5 dependency to get the hashed string required as a parameter to fetch the info
 import md5 from "md5";
 
 const HeroCard = (props) => {
@@ -16,6 +19,7 @@ const HeroCard = (props) => {
     boxShadow: "5px 10px #ff452b",
   };
 
+  // Effect hook is used to make the request to the Marvel API
   React.useEffect(() => {
     const baseURL = "https://gateway.marvel.com:443/v1/public/characters";
     const publicKey = "d3117b862aa475e233f64f8d0198832b";
@@ -33,15 +37,18 @@ const HeroCard = (props) => {
       .then((response) => setHeroes(response.data.data.results));
   }, [setHeroes]);
 
+  // Alternate description to display for the heroes who have an empty string as their description
   const altDescription =
     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut bibendum felis nec dui ultrices, vel congue orci interdum. Pellentesque nunc nisi, egestas eu sagittis maximus, venenatis ac est. Nullam sed dignissim nisi. In eu mi non velit laoreet tristique. Cras varius felis facilisis, aliquet orci vitae, egestas quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Cras et nisi sollicitudin, luctus dui nec, laoreet nisl.";
 
+  // Function to obtain the URL to the hero's comics
   const searchHeroComicLink = (heroUrls) => {
     if (heroUrls.type === "comiclink") {
       return heroUrls.url;
     }
   };
 
+  // Function to obtain the URL to the hero's detail
   const searchHeroDetail = (heroUrls) => {
     if (heroUrls.type === "detail") {
       return heroUrls.url;
@@ -52,6 +59,7 @@ const HeroCard = (props) => {
     <Container fixed>
       <Grid container spacing={3}>
         {heroes.map((hero) => (
+          // These attributes allow the page to be responsive
           <Grid item xs={12} sm={4} md={3} key={hero.name}>
             <Card style={cardStyle} sx={{ maxWidth: 345 }}>
               <CardActionArea>
