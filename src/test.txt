@@ -1,0 +1,1 @@
+https://gateway.marvel.com/v1/public/characters?ts=peticion&apikey=a5ef1bcc2faca66ae611504968a7b833&hash=a6b12a6dd8b60171941c8713cccd537f
